@@ -1,27 +1,16 @@
-import { useMolecules } from '@bambooapp/bamboo-molecules';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { FC, useMemo } from 'react';
 
-import { Example } from '~/Example';
-
-const HomeScreen: FC = _props => {
-    const { View } = useMolecules();
-    const style = useMemo(() => ({ padding: 'spacings.8' }), []);
-    return (
-        <View style={style}>
-            <Example />
-        </View>
-    );
-};
-
+import { DashboardScreen } from '~/screens/DashboardScreen';
+import { ManageCategoriesScreen } from '~/screens/ManageCategoriesScreen';
 const Drawer = createDrawerNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
             <Drawer.Navigator>
-                <Drawer.Screen name="Home" component={HomeScreen} />
+                <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+                <Drawer.Screen name="ManageCategories" component={ManageCategoriesScreen} />
             </Drawer.Navigator>
         </NavigationContainer>
     );
