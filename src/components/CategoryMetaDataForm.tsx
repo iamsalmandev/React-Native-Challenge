@@ -63,7 +63,7 @@ export const CategoryMetaDetaForm: React.FC<{ id: string }> = ({ id }) => {
                         selectedValue={type}
                         onValueChange={async itemValue => {
                             setType(itemValue);
-                            await addNewField(category.id, FieldType[itemValue]);
+                            addNewField(category.id, FieldType[itemValue] as unknown as FieldType);
                             fetchCategory();
                         }}>
                         <Picker.Item label="TEXT" value={FieldType.TEXT} />
