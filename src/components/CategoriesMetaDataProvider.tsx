@@ -13,14 +13,14 @@ export const CategoriesMetaDataContext = React.createContext<{
     addNewField: (categoryId: string, type: FieldProps['type']) => void;
     removeCategory: (categoryId: string) => void;
     removeField: (categoryId: string, fieldId: string) => void;
-    fetchCategories: () => void;
+    fetchCategoriesIds: () => void;
 }>({
     categoriesMetaData: [],
     addNewCategory: () => undefined,
     addNewField: () => undefined,
     removeCategory: () => undefined,
     removeField: () => undefined,
-    fetchCategories: () => undefined,
+    fetchCategoriesIds: () => undefined,
 });
 
 export const CategoriesMetaDataProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -28,10 +28,10 @@ export const CategoriesMetaDataProvider: React.FC<{ children: React.ReactNode }>
 }) => {
     const [categoriesMetaData, setCategoriesMetaData] = useState<string[]>([]);
     useEffect(() => {
-        fetchCategories();
+        fetchCategoriesIds();
     }, []);
 
-    const fetchCategories = async () => {
+    const fetchCategoriesIds = async () => {
         const categories = await AsyncStorage.getItem(CATEGORIES_METADATA_STORAGE_KEY);
         if (categories) {
             const categoriesParsed = JSON.parse(categories);
@@ -99,7 +99,7 @@ export const CategoriesMetaDataProvider: React.FC<{ children: React.ReactNode }>
                 addNewField,
                 removeCategory,
                 removeField,
-                fetchCategories,
+                fetchCategoriesIds,
             }}>
             {children}
         </CategoriesMetaDataContext.Provider>

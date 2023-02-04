@@ -1,6 +1,9 @@
-import { ButtonProps, useMolecules } from '@bambooapp/bamboo-molecules';
-import { FC, useCallback, useState } from 'react';
+import { useMolecules } from '@bambooapp/bamboo-molecules';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
+
+import { CategoryDataForm } from '~/components/CategoryDataForm';
+import type { CategoryMetaDataProps } from '~/components/CategoryMetaDataForm';
 
 const styles = StyleSheet.create({
     text: {
@@ -12,20 +15,19 @@ const styles = StyleSheet.create({
     },
 });
 
-export const DashboardScreen: FC<Omit<ButtonProps, 'children'>> = ({ onPress, ...props }) => {
+export const DashboardScreen: FC<{
+    categories: CategoryMetaDataProps[];
+}> = ({ categories, ...props }) => {
     const { Button, Text, View } = useMolecules();
-    const [counter, setCounter] = useState(0);
-
-    const handlePress = useCallback(() => {
-        onPress?.();
-        setCounter(x => x + 1);
-    }, [onPress, setCounter]);
 
     return (
         <View style={styles.view}>
             <Text style={styles.text}>Dashboard!</Text>
-            <Button variant="contained" {...props} onPress={handlePress}>
-                <Text>{`Clicked ${counter} times`}</Text>
+            {categories.map(category => (
+                <CategoryDataForm {...category} />
+            ))}
+            <Button variant="contained" {...props}>
+                <Text>{`Add new Item`}</Text>
             </Button>
         </View>
     );
