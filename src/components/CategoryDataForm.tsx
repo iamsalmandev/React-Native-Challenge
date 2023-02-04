@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 import { ComplexField } from './ComplexField';
-import type { FieldType } from './Field';
 // @TODO wip this would be a CategoryDataForm, will be responsible for showing/receving data from user
 const styles = StyleSheet.create({
     view: {
