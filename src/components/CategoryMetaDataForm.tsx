@@ -26,7 +26,7 @@ export interface CategoryMetaDataProps {
 }
 export const CategoryMetaDetaForm: React.FC<{ id: string }> = ({ id }) => {
     const [val, setVal] = useState<string>('');
-    const [type, setType] = useState<FieldType>(FieldType.TEXT);
+    const [type, setType] = useState<FieldType | null>(null);
     const [category, setCategory] = useState<CategoryMetaDataProps | null>(null);
     const { addNewField, removeCategory } = useCategoriesMetaData();
     const fetchCategory = useCallback(async () => {
@@ -47,7 +47,7 @@ export const CategoryMetaDetaForm: React.FC<{ id: string }> = ({ id }) => {
         debounce(async () => {
             const updatedCategory = { ...category, name: val };
             await AsyncStorage.setItem(id, JSON.stringify(updatedCategory));
-        })();
+        }, 500)();
     }, [val, id, category]);
 
     return (
@@ -59,17 +59,20 @@ export const CategoryMetaDetaForm: React.FC<{ id: string }> = ({ id }) => {
                 ))}
                 <View style={styles.buttonView}>
                     <Picker
+                        mode="dropdown"
                         placeholder="Add new Field"
                         selectedValue={type}
-                        onValueChange={async itemValue => {
-                            setType(itemValue);
-                            addNewField(category.id, FieldType[itemValue] as unknown as FieldType);
-                            fetchCategory();
+                        onFocus={() => setType(null)}
+                        onValueChange={async (itemValue, index) => {
+                            if (itemValue && index !== 0) {
+                                await addNewField(category.id, itemValue);
+                                fetchCategory();
+                            }
                         }}>
-                        <Picker.Item label="TEXT" value={FieldType.TEXT} />
-                        <Picker.Item label="CHECKBOX" value={FieldType.CHECKBOX} />
-                        <Picker.Item label="NUMBER" value={FieldType.NUMBER} />
-                        <Picker.Item label="DATE" value={FieldType.DATE} />
+                        <Picker.Item label="Add new Field" value={null} />
+                        {[0, 1, 2, 3].map(idx => (
+                            <Picker.Item label={FieldType[idx]} value={FieldType[idx]} />
+                        ))}
                     </Picker>
 
                     <Button

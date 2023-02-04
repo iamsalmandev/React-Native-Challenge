@@ -39,7 +39,7 @@ export const Field: React.FC<{ id: string }> = ({ id }) => {
         debounce(async () => {
             const updatedField = { ...field, text: val };
             await AsyncStorage.setItem(id, JSON.stringify(updatedField));
-        })();
+        }, 500)();
     }, [val, field, id]);
 
     return (
